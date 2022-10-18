@@ -11,62 +11,29 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS
+    Core
+    Widgets
+    Multimedia
+    MultimediaWisgets
+)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS
     Core
     Widgets
     Multimedia
     MultimediaWidgets
-    REQUIRED
-)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
-    Widgets
-    Multimedia
-    MultimediaWidgets
-    REQUIRED
 )
 
-set(PROJECT_SOURCES
-        main.cpp
-        res.qrc
+add_executable(38_5_1_Red_Button
+    main.cpp
+    res.qrc
 )
-
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(38_5_1_Red_Button
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Task_38_1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(38_5_1_Red_Button SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(38_5_1_Red_Button
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
-
-target_link_libraries(38_5_1_Red_Button PRIVATE
+target_link_libraries(38_5_1_Red_Button
+    Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Multimedia
     Qt${QT_VERSION_MAJOR}::MultimediaWidgets
 )
 
-set_target_properties(38_5_1_Red_Button PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(38_5_1_Red_Button)
-endif()
+install(TARGETS 38_5_1_Red_Button
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
