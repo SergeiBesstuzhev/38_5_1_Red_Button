@@ -26,6 +26,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS
 
 add_executable(38_5_1_Red_Button
     main.cpp
+    imagebutton.cpp
+    imagebutton.h
     res.qrc
 )
 target_link_libraries(38_5_1_Red_Button
